@@ -8,6 +8,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+import time
+
 
 def get_chrome_driver():
 	options = webdriver.ChromeOptions()
@@ -22,14 +24,21 @@ def get_chrome_driver():
 	driver.get("https://automated.pythonanywhere.com/")
 	return driver
 
+def clean_text(text):
+	"""Extract only the temperature from the text"""
+	output = float(text.split(": ")[1])
+	return output
 
 def main():
 	driver = get_chrome_driver()
+	time.sleep(3)
 	# WebDriverWait(driver, 60).until(
     # EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div/h1[1]'))
 	# )
-	element = driver.find_element(By.XPATH,'/html/body/div[1]/div/h1[1]')
-	return element.text
+	element = driver.find_element(By.XPATH,'/html/body/div[1]/div/h1[2]')
+
+
+	return clean_text(element.text)
 
 print(main())
 
