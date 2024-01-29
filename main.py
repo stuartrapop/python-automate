@@ -21,7 +21,7 @@ def get_chrome_driver():
 	options.add_argument('--disable-blink-features=AutomationControlled')
 
 	driver = webdriver.Chrome(service= service, options=options)
-	driver.get("https://automated.pythonanywhere.com/")
+	driver.get("https://automated.pythonanywhere.com/login/")
 	return driver
 
 def clean_text(text):
@@ -31,14 +31,23 @@ def clean_text(text):
 
 def main():
 	driver = get_chrome_driver()
-	time.sleep(3)
 	# WebDriverWait(driver, 60).until(
     # EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div/h1[1]'))
 	# )
+	driver.find_element(By.ID,'id_username').send_keys('automated')
+	time.sleep(1)
+	driver.find_element(By.ID,'id_password').send_keys('automatedautomated' + Keys.RETURN)
+	time.sleep(3)
+	print(driver.current_url)
+
+	driver.find_element(By.XPATH,'/html/body/nav/div/a').click()
+
+	time.sleep(3)
 	element = driver.find_element(By.XPATH,'/html/body/div[1]/div/h1[2]')
-
-
 	return clean_text(element.text)
+	print(driver.current_url)
+
+
 
 print(main())
 
